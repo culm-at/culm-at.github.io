@@ -56,14 +56,25 @@
         </p>
 
         <h2>What Data Is Stored</h2>
-        <p>The app stores the following data in Forge SQL (a per-installation database hosted by Atlassian):</p>
+        <p>
+            The app stores only the minimum data required to prove that a specific user signed a specific version
+            of a document at a specific point in time. <strong>No document content is ever stored.</strong>
+            The complete set of stored data, for every signature record, consists of exactly three elements:
+        </p>
         <table>
             <tr><th>Data</th><th>Purpose</th></tr>
-            <tr><td>Atlassian account IDs</td><td>Identify who signed a document. These are opaque platform identifiers, not names or email addresses.</td></tr>
-            <tr><td>Signature timestamps</td><td>Record when each signature was made.</td></tr>
-            <tr><td>Confluence page IDs</td><td>Associate signatures with the correct page.</td></tr>
-            <tr><td>SHA-256 content hashes</td><td>Verify document integrity. If content changes, a new signature round starts.</td></tr>
+            <tr><td>Atlassian account ID</td><td>Identifies who signed. An opaque platform identifier assigned by Atlassian — not a name or email address.</td></tr>
+            <tr><td>Signature timestamp</td><td>Records when the signature was made.</td></tr>
+            <tr><td>SHA-256 content hash</td><td>A one-way cryptographic fingerprint of the document at the time of signing. Used to detect content changes. The original document content cannot be reconstructed or inferred from the hash.</td></tr>
         </table>
+        <p>
+            This is also the complete set of data that can be exported. Exports contain nothing beyond
+            these three fields per signature record.
+        </p>
+        <h2>Security of Stored Data</h2>
+        <p>
+            Only cryptographic hashes of document content are stored — even full access to the database reveals nothing about what was signed: the data managed by the app is <strong>encrypted at rest</strong>.
+        </p>
 
         <h2>What Data Is NOT Stored</h2>
         <ul>
@@ -135,7 +146,7 @@
             contact <a href="mailto:culm@culm.at">culm@culm.at</a>.
         </p>
 
-        <p class="updated">Last updated: 19 February 2026</p>
+        <p class="updated">Last updated: 20 February 2026</p>
     </div>
 </body>
 </html>
