@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home – Digital Signature for Confluence</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: #000;
+            color: #e0e0e0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        a { color: #8ab4f8; }
+        a:visited { color: #c58af9; }
+        header { margin-bottom: 40px; }
+        header a { text-decoration: none; }
+        header img { height: 32px; display: block; }
+        h1 { font-size: 1.5em; color: #fff; margin-top: 24px; margin-bottom: 8px; }
+        /* paragraph immediately after h1 acts as subtitle */
+        h1 + p { color: #999; margin-bottom: 32px; }
+        h1 + p strong { font-weight: normal; }
+        h2 { font-size: 1.15em; color: #fff; margin-top: 32px; margin-bottom: 12px; }
+        p, li { margin-bottom: 12px; }
+        ul { padding-left: 24px; }
+        table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+        th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid #333; }
+        th { color: #fff; white-space: nowrap; }
+        /* --- in markdown becomes <hr>; used before the "Last updated" line */
+        hr { border: none; border-top: 1px solid #222; margin: 40px 0 0; }
+        hr + p { color: #666; font-size: 0.9em; padding-top: 20px; }
+        hr + p em { font-style: normal; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="https://culm.at"><img src="/culmat_logo_grayscale.svg" alt="culm.at"></a>
+        </header>
+        <h1 id="digital-signature-for-confluence">Digital Signature for
+        Confluence</h1>
+        <p><strong>Digital Signature</strong> lets teams collect
+        legally-traceable, immutable signatures directly on Confluence
+        pages. Contracts live inside the macro — not in the page body —
+        so signatures only depend on the exact wording of the contract
+        title and content.</p>
+        <h2 id="how-it-works">How it works</h2>
+        <ol type="1">
+        <li>An editor inserts the macro into a Confluence page and
+        writes the contract inside it.</li>
+        <li>Eligible users see a <strong>Sign</strong> button and can
+        sign with one click.</li>
+        <li>Signatures are permanent. They cannot be revoked, backdated,
+        or moved to a different contract.</li>
+        <li>If the contract text is changed, existing signatures are
+        invalidated and a new round of signing begins.</li>
+        <li>Signatures are stored forever, so the full flexibility of
+        the wiki is preserved. When you restore pages from history or
+        trash all signatures are intact.</li>
+        </ol>
+        <h2 id="features-at-a-glance">Features at a glance</h2>
+        <ul>
+        <li>Restrict signing to named users, Confluence groups, or page
+        permission holders. Ideal for NDAs.</li>
+        <li><strong>Petition mode</strong> — leave restrictions empty to
+        let any logged-in user sign</li>
+        <li>Cap the total number of signatures with <strong>Maximum
+        Signatures</strong>. Ideal for binding sign up for limit
+        resources like workshops.</li>
+        <li>Control who can see the signer and pending-signer lists</li>
+        <li>Scales to hundreds of signatures per contract</li>
+        <li>Email signers or pending signers directly from the
+        macro</li>
+        <li>Standard Confluence PDF and Word exports include the
+        signature panel</li>
+        <li>Full Atlassian hosted and compliant with regulations</li>
+        </ul>
+        <p><strong>For Confluence administrators:</strong> - Admin
+        dashboard with statistics, backup and restore.</p>
+        <h2 id="read-on">Read on</h2>
+        <table>
+        <colgroup>
+        <col style="width: 31%" />
+        <col style="width: 68%" />
+        </colgroup>
+        <tbody>
+        <tr class="odd">
+        <td><a href="installation.html">Installation</a></td>
+        <td>Install from the Marketplace and add the macro to a
+        page</td>
+        </tr>
+        <tr class="even">
+        <td><a href="using-the-macro.html">Using the Macro</a></td>
+        <td>Configuration reference and signing walkthrough</td>
+        </tr>
+        <tr class="odd">
+        <td><a href="admin-dashboard.html">Admin Dashboard</a></td>
+        <td>Backup, restore, statistics, and data management</td>
+        </tr>
+        <tr class="even">
+        <td><a href="how-it-works.html">How it works</a></td>
+        <td>Why signatures are immutable and why content lives in the
+        macro</td>
+        </tr>
+        <tr class="odd">
+        <td><a href="migrating-from-server.html">Migrating from
+        Server/DC</a></td>
+        <td>What changed, what was removed, and how to re-create your
+        macros</td>
+        </tr>
+        </tbody>
+        </table>
+        <h2 id="trust-legal">Trust &amp; Legal</h2>
+        <table>
+        <colgroup>
+        <col style="width: 31%" />
+        <col style="width: 68%" />
+        </colgroup>
+        <tbody>
+        <tr class="odd">
+        <td><a href="trust-center.html">Trust Center</a></td>
+        <td>Security, data practices, privacy, compliance, and
+        support</td>
+        </tr>
+        <tr class="even">
+        <td><a href="privacy-policy.html">Privacy Policy</a></td>
+        <td>What data is collected, where it is stored, and GDPR
+        rights</td>
+        </tr>
+        <tr class="odd">
+        <td><a href="terms.html">Terms</a></td>
+        <td>End user terms, governing law, and support terms</td>
+        </tr>
+        </tbody>
+        </table>
+    </div>
+</body>
+</html>

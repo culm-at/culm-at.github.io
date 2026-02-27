@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Using the Macro – Digital Signature for Confluence</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: #000;
+            color: #e0e0e0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        a { color: #8ab4f8; }
+        a:visited { color: #c58af9; }
+        header { margin-bottom: 40px; }
+        header a { text-decoration: none; }
+        header img { height: 32px; display: block; }
+        h1 { font-size: 1.5em; color: #fff; margin-top: 24px; margin-bottom: 8px; }
+        /* paragraph immediately after h1 acts as subtitle */
+        h1 + p { color: #999; margin-bottom: 32px; }
+        h1 + p strong { font-weight: normal; }
+        h2 { font-size: 1.15em; color: #fff; margin-top: 32px; margin-bottom: 12px; }
+        p, li { margin-bottom: 12px; }
+        ul { padding-left: 24px; }
+        table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+        th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid #333; }
+        th { color: #fff; white-space: nowrap; }
+        /* --- in markdown becomes <hr>; used before the "Last updated" line */
+        hr { border: none; border-top: 1px solid #222; margin: 40px 0 0; }
+        hr + p { color: #666; font-size: 0.9em; padding-top: 20px; }
+        hr + p em { font-style: normal; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="https://culm.at"><img src="/culmat_logo_grayscale.svg" alt="culm.at"></a>
+        </header>
+        <h1 id="using-the-macro">Using the Macro</h1>
+        <p>This page covers configuration (for page editors) and the
+        signing experience (for signers).</p>
+        <hr />
+        <h2 id="for-page-editors">For page editors</h2>
+        <h3 id="contract-title-and-content">Contract title and
+        content</h3>
+        <table>
+        <colgroup>
+        <col style="width: 50%" />
+        <col style="width: 50%" />
+        </colgroup>
+        <thead>
+        <tr class="header">
+        <th>Field</th>
+        <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="odd">
+        <td><strong>Contract Title</strong>
+        (<code>panelTitle</code>)</td>
+        <td>Displayed at the top of the panel. Part of the
+        contract—changing it resets all signatures. Maximum 200
+        characters.</td>
+        </tr>
+        <tr class="even">
+        <td><strong>Contract Content</strong>
+        (<code>content</code>)</td>
+        <td>The body of the contract. Supports limited Markdown (see
+        below). Part of the contract—changing it resets all
+        signatures.</td>
+        </tr>
+        </tbody>
+        </table>
+        <blockquote>
+        <p><strong>Content is the contract.</strong> The title, body and
+        page ID are used to uniquely identify the contract. If either
+        changes, existing signatures no longer apply and signing starts
+        over. This is intentional — it prevents signing a blank or
+        altered document.</p>
+        </blockquote>
+        <p><strong>Supported Markdown:</strong></p>
+        <pre><code># Heading
+**bold**  *italic*
+- list items
+&gt; blockquote
+`code`</code></pre>
+        <p>External links and embedded images are not supported.</p>
+        <hr />
+        <h3 id="who-can-sign">Who can sign</h3>
+        <p>By default (no restrictions configured), any logged-in user
+        who can view the page can sign. This is called <strong>petition
+        mode</strong> and the configuration panel will show a notice
+        when it is active.</p>
+        <p>To restrict signing, use one or more of these options:</p>
+        <table>
+        <colgroup>
+        <col style="width: 35%" />
+        <col style="width: 65%" />
+        </colgroup>
+        <thead>
+        <tr class="header">
+        <th>Field</th>
+        <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="odd">
+        <td><strong>Signers</strong></td>
+        <td>Named Confluence users. Added via the user picker.</td>
+        </tr>
+        <tr class="even">
+        <td><strong>Signer Groups</strong></td>
+        <td>Atlassian group IDs, one per line. Find group IDs in
+        Atlassian Admin → Groups. Note: these are group IDs (UUIDs), not
+        group names.</td>
+        </tr>
+        <tr class="odd">
+        <td><strong>Allow page viewers to sign</strong>
+        (<code>inheritViewers</code>)</td>
+        <td>Any user with view permission on the page can sign.</td>
+        </tr>
+        <tr class="even">
+        <td><strong>Allow page editors to sign</strong>
+        (<code>inheritEditors</code>)</td>
+        <td>Any user with edit permission on the page can sign.</td>
+        </tr>
+        </tbody>
+        </table>
+        <p>Multiple options can be combined—a user can sign if they
+        match <em>any</em> of the configured restrictions.</p>
+        <hr />
+        <h3 id="signing-limits">Signing limits</h3>
+        <table>
+        <colgroup>
+        <col style="width: 35%" />
+        <col style="width: 65%" />
+        </colgroup>
+        <thead>
+        <tr class="header">
+        <th>Field</th>
+        <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="odd">
+        <td><strong>Maximum Signatures</strong>
+        (<code>maxSignatures</code>)</td>
+        <td>Cap the total number of signatures accepted. Once reached,
+        the Sign button disappears. Set to <code>0</code> to disable
+        signing entirely. Leave empty for unlimited.</td>
+        </tr>
+        <tr class="even">
+        <td><strong>Signature Display Limit</strong>
+        (<code>visibilityLimit</code>)</td>
+        <td>Show only the first N signatures; the rest are hidden behind
+        a <strong>Show more</strong> button. Leave empty to always show
+        all.</td>
+        </tr>
+        </tbody>
+        </table>
+        <hr />
+        <h3 id="visibility-settings">Visibility settings</h3>
+        <p>These settings control who can see the lists of signers and
+        pending signers.</p>
+        <table>
+        <colgroup>
+        <col style="width: 50%" />
+        <col style="width: 50%" />
+        </colgroup>
+        <thead>
+        <tr class="header">
+        <th>Setting</th>
+        <th>Options</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="odd">
+        <td><strong>Show list of signers</strong>
+        (<code>signaturesVisible</code>)</td>
+        <td><code>ALWAYS</code> — visible to everyone (default)</td>
+        </tr>
+        <tr class="even">
+        <td></td>
+        <td><code>IF_SIGNATORY</code> — only visible to users who can
+        sign</td>
+        </tr>
+        <tr class="odd">
+        <td></td>
+        <td><code>IF_SIGNED</code> — only visible to users who have
+        already signed</td>
+        </tr>
+        <tr class="even">
+        <td><strong>Show list of pending signers</strong>
+        (<code>pendingVisible</code>)</td>
+        <td>Same three options</td>
+        </tr>
+        </tbody>
+        </table>
+        <p>Visibility settings are independent for the signed list and
+        the pending list.</p>
+        <hr />
+        <h2 id="for-signers">For signers</h2>
+        <h3 id="how-to-sign">How to sign</h3>
+        <ol type="1">
+        <li>Open the Confluence page containing the macro.</li>
+        <li>If you are authorized to sign, a <strong>Sign</strong>
+        button appears.</li>
+        <li>Click <strong>Sign</strong>, then confirm in the dialog.
+        Signing cannot be undone.</li>
+        </ol>
+        <p>You cannot sign the same contract twice. If the contract
+        content changes, your previous signature is invalidated and you
+        can sign again.</p>
+        <h3 id="when-the-sign-button-appears">When the Sign button
+        appears</h3>
+        <p>The button is shown if: - You are listed as a named signer,
+        <strong>or</strong> - You are a member of one of the configured
+        signer groups, <strong>or</strong> - You have the relevant page
+        permission (view or edit) and the corresponding inheritance
+        option is enabled, <strong>or</strong> - No restrictions are set
+        (petition mode — any logged-in user can sign)</p>
+        <p>…and: - The maximum signature count has not been reached -
+        You have not already signed this version of the contract</p>
+        <h3 id="emailing-signers">Emailing signers</h3>
+        <p>Two buttons in the macro panel let you compose an email to
+        signers or pending signers:</p>
+        <ul>
+        <li><strong>Email signers</strong> — opens your email client
+        addressed to everyone who has signed</li>
+        <li><strong>Email pending</strong> — opens your email client
+        addressed to everyone who has not yet signed</li>
+        </ul>
+        <p>If the recipient list is too long for a mailto link, a dialog
+        appears with the email addresses to copy and paste.</p>
+        <blockquote>
+        <p>Note: The app does not send emails automatically. It only
+        helps you compose them.</p>
+        </blockquote>
+    </div>
+</body>
+</html>

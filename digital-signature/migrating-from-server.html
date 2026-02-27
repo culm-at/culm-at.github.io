@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Migrating from
+Server – Digital Signature for Confluence</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: #000;
+            color: #e0e0e0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        a { color: #8ab4f8; }
+        a:visited { color: #c58af9; }
+        header { margin-bottom: 40px; }
+        header a { text-decoration: none; }
+        header img { height: 32px; display: block; }
+        h1 { font-size: 1.5em; color: #fff; margin-top: 24px; margin-bottom: 8px; }
+        /* paragraph immediately after h1 acts as subtitle */
+        h1 + p { color: #999; margin-bottom: 32px; }
+        h1 + p strong { font-weight: normal; }
+        h2 { font-size: 1.15em; color: #fff; margin-top: 32px; margin-bottom: 12px; }
+        p, li { margin-bottom: 12px; }
+        ul { padding-left: 24px; }
+        table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+        th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid #333; }
+        th { color: #fff; white-space: nowrap; }
+        /* --- in markdown becomes <hr>; used before the "Last updated" line */
+        hr { border: none; border-top: 1px solid #222; margin: 40px 0 0; }
+        hr + p { color: #666; font-size: 0.9em; padding-top: 20px; }
+        hr + p em { font-style: normal; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="https://culm.at"><img src="/culmat_logo_grayscale.svg" alt="culm.at"></a>
+        </header>
+        <h1 id="migrating-from-server-data-center">Migrating from Server
+        / Data Center</h1>
+        <p>This page is for teams moving from the legacy Confluence
+        Server/DC plugin to the Confluence Cloud app.</p>
+        <hr />
+        <h2 id="what-stays-the-same">What stays the same</h2>
+        <p>The core signing experience is unchanged:</p>
+        <ul>
+        <li>Users sign with one click; signatures are permanent and
+        cannot be revoked</li>
+        <li>Named signers and signer groups</li>
+        <li>Maximum signatures limit</li>
+        <li>Visibility limit with “Show more” button</li>
+        <li>Signature visibility controls (always, if signatory, if
+        signed)</li>
+        <li>Markdown contract content</li>
+        <li>Content integrity — each contract version is identified by a
+        SHA-256 hash of its title and body. Changing the content starts
+        a new signing round.</li>
+        <li>English, German, French, and Japanese UI</li>
+        </ul>
+        <hr />
+        <h2 id="what-has-been-removed">What has been removed</h2>
+        <table>
+        <colgroup>
+        <col style="width: 52%" />
+        <col style="width: 47%" />
+        </colgroup>
+        <thead>
+        <tr class="header">
+        <th>Feature</th>
+        <th>Reason</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="odd">
+        <td><strong>Protected content</strong> (hidden child page
+        revealed on signing)</td>
+        <td>The Forge platform cannot grant page-level permissions
+        programmatically</td>
+        </tr>
+        <tr class="even">
+        <td><strong>Panel toggle</strong>
+        (<code>panel=true/false</code>)</td>
+        <td>The Cloud macro always renders with a panel; the toggle has
+        no equivalent</td>
+        </tr>
+        <tr class="odd">
+        <td><strong>Email notifications on sign</strong> (automatic
+        emails to configured users)</td>
+        <td>Forge apps cannot send email via SMTP</td>
+        </tr>
+        <tr class="even">
+        <td><strong>In-app notifications</strong> (WorkBox)</td>
+        <td>Already removed in Confluence 9.x; no equivalent in
+        Cloud</td>
+        </tr>
+        <tr class="odd">
+        <td><strong>HTML export endpoint</strong></td>
+        <td>Not yet available; planned for a future release</td>
+        </tr>
+        </tbody>
+        </table>
+        <p>The email list export REST endpoint
+        (<code>/rest/signature/1.0/emails</code>) is replaced by the
+        built-in <strong>Email signers</strong> / <strong>Email
+        pending</strong> buttons in the macro.</p>
+        <hr />
+        <h2 id="configuration-parameter-changes">Configuration parameter
+        changes</h2>
+        <p>Re-create your macros using the new parameter names and
+        formats:</p>
+        <table>
+        <colgroup>
+        <col style="width: 41%" />
+        <col style="width: 41%" />
+        <col style="width: 17%" />
+        </colgroup>
+        <thead>
+        <tr class="header">
+        <th>Server parameter</th>
+        <th>Cloud equivalent</th>
+        <th>Notes</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="odd">
+        <td><code>title</code></td>
+        <td><code>panelTitle</code></td>
+        <td>Renamed</td>
+        </tr>
+        <tr class="even">
+        <td><code>signers</code></td>
+        <td><code>signers</code></td>
+        <td>Server used usernames; Cloud uses Atlassian account IDs</td>
+        </tr>
+        <tr class="odd">
+        <td><code>signerGroups</code></td>
+        <td><code>signerGroups</code></td>
+        <td>Server used group names; Cloud uses group IDs (UUIDs)</td>
+        </tr>
+        <tr class="even">
+        <td><code>inheritSigners</code> (enum)</td>
+        <td><code>inheritViewers</code> + <code>inheritEditors</code>
+        (two booleans)</td>
+        <td>“readers only” → <code>inheritViewers=true</code>. “writers
+        only” → <code>inheritEditors=true</code>. “readers and writers”
+        → both <code>true</code>.</td>
+        </tr>
+        <tr class="odd">
+        <td><code>maxSignatures: -1</code></td>
+        <td>leave <code>maxSignatures</code> empty</td>
+        <td>-1 is not valid in Cloud; empty means unlimited</td>
+        </tr>
+        <tr class="even">
+        <td><code>visibilityLimit: -1</code></td>
+        <td>leave <code>visibilityLimit</code> empty</td>
+        <td>Same as above</td>
+        </tr>
+        <tr class="odd">
+        <td><code>signaturesVisible: always</code></td>
+        <td><code>signaturesVisible: ALWAYS</code></td>
+        <td>Casing changed (uppercase in Cloud)</td>
+        </tr>
+        <tr class="even">
+        <td><code>pendingVisible: always</code></td>
+        <td><code>pendingVisible: ALWAYS</code></td>
+        <td>Same</td>
+        </tr>
+        <tr class="odd">
+        <td><code>notified</code></td>
+        <td>—</td>
+        <td>Dropped; no email notifications</td>
+        </tr>
+        <tr class="even">
+        <td><code>panel</code></td>
+        <td>—</td>
+        <td>Dropped; always on</td>
+        </tr>
+        <tr class="odd">
+        <td><code>protectedContent</code></td>
+        <td>—</td>
+        <td>Dropped; feature not available</td>
+        </tr>
+        </tbody>
+        </table>
+        <h3 id="finding-group-ids">Finding group IDs</h3>
+        <p>Atlassian group IDs are UUIDs, not the display names you may
+        have used on Server. Find them in <strong>Atlassian Admin →
+        Directory → Groups</strong> — click a group to see its ID in the
+        URL or details panel.</p>
+        <h3 id="finding-account-ids">Finding account IDs</h3>
+        <p>User account IDs can be found via the Atlassian Admin user
+        list or via the Confluence REST API.</p>
+        <hr />
+        <h2 id="petition-mode">Petition mode</h2>
+        <p>On Server, petition mode (any user can sign) was activated by
+        setting <code>signerGroups="*"</code>.</p>
+        <p>On Cloud, petition mode is automatic: if you configure no
+        named signers, no groups, and no permission inheritance, any
+        logged-in user who can view the page can sign. The configuration
+        panel shows a notice when petition mode is active.</p>
+        <hr />
+        <h2 id="existing-signature-data">Existing signature data</h2>
+        <p>Automated migration of signature history from Server to Cloud
+        is planned but not yet available. The Cloud Migration Assistant
+        (CMA) will handle this transfer when ready.</p>
+        <p>Until migration tooling is available, existing signatures
+        from your Server instance are not carried over. If you need your
+        signature history preserved, hold off on decommissioning your
+        Server instance until migration is supported.</p>
+        <p>To be notified when migration becomes available, watch the <a
+        href="https://github.com/baloise/digital-signature">GitHub
+        repository</a> or open an issue there.</p>
+    </div>
+</body>
+</html>

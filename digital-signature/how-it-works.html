@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How it works – Digital Signature for Confluence</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: #000;
+            color: #e0e0e0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.7;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        a { color: #8ab4f8; }
+        a:visited { color: #c58af9; }
+        header { margin-bottom: 40px; }
+        header a { text-decoration: none; }
+        header img { height: 32px; display: block; }
+        h1 { font-size: 1.5em; color: #fff; margin-top: 24px; margin-bottom: 8px; }
+        /* paragraph immediately after h1 acts as subtitle */
+        h1 + p { color: #999; margin-bottom: 32px; }
+        h1 + p strong { font-weight: normal; }
+        h2 { font-size: 1.15em; color: #fff; margin-top: 32px; margin-bottom: 12px; }
+        p, li { margin-bottom: 12px; }
+        ul { padding-left: 24px; }
+        table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+        th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid #333; }
+        th { color: #fff; white-space: nowrap; }
+        /* --- in markdown becomes <hr>; used before the "Last updated" line */
+        hr { border: none; border-top: 1px solid #222; margin: 40px 0 0; }
+        hr + p { color: #666; font-size: 0.9em; padding-top: 20px; }
+        hr + p em { font-style: normal; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="https://culm.at"><img src="/culmat_logo_grayscale.svg" alt="culm.at"></a>
+        </header>
+        <h1 id="how-it-works">How it works</h1>
+        <p>This page explains why Digital Signature works the way it
+        does and how it keeps signatures meaningful and
+        tamper-proof.</p>
+        <h2 id="why-signatures-are-immutable">Why signatures are
+        immutable</h2>
+        <p>A signature has no legal or practical value if it can be
+        withdrawn later or backdated. Once you sign, that fact is
+        recorded permanently:</p>
+        <ul>
+        <li>You cannot unsign.</li>
+        <li>The date cannot be changed.</li>
+        </ul>
+        <p>This is the core property the app is built around.</p>
+        <h2
+        id="why-the-contract-lives-inside-the-macro-not-the-page">Why
+        the contract lives inside the macro (not the page)</h2>
+        <p>By putting the contract title and body inside the macro, we
+        can hash the content and tie each signature to an exact version.
+        If anything changes, the hash changes, and the existing
+        signatures no longer apply and signing starts over.</p>
+        <p>This allows you to put explanations and signing instructions
+        around the contract that can be edited without invalidating the
+        signatures. You can also put several contract on the same
+        page.</p>
+        <p>Just ensure that the full text of the contract is contained
+        within one single macro, so that the user exctly knows what is
+        part of the contract.</p>
+        <p>This is also why you cannot give a <a
+        href="https://www.merriam-webster.com/dictionary/blank%20signature">blank
+        signature</a>: the macro requires real content before signing is
+        possible.</p>
+        <p>Users sign only the macro content - not the page.</p>
+        <h2 id="why-content-hashing-sha-256">Why content hashing
+        (SHA-256)</h2>
+        <p>Each contract is identified by a SHA-256 hash of its title,
+        body, and the page it lives on. This means:</p>
+        <ul>
+        <li>Copying a macro to a different page produces a different
+        hash—the old signatures don’t transfer.</li>
+        <li>Restoring a page to a previous version with the same content
+        restores the same hash—the signatures reappear.</li>
+        <li>Two identical macros on the same page share a hash—signing
+        one signs both.</li>
+        </ul>
+        <h2 id="why-markdown-not-the-rich-text-editor">Why Markdown (not
+        the rich text editor)</h2>
+        <p>Rich text in Confluence can include dynamic content, embedded
+        macros, and formatting that may render differently across page
+        loads or browser environments. That instability makes it
+        impossible to guarantee the content is the same from one load to
+        the next.</p>
+        <p>Markdown with a restricted feature set (no external links, no
+        embedded images, no HTML) is stable, portable, and unambiguous.
+        The same source always produces the same output.</p>
+        <p>External links and embedded images are specifically excluded
+        because they allow a page author to change what a reader sees by
+        updating the linked resource—without changing the hash.</p>
+        <h2 id="the-wiki-tension">The wiki tension</h2>
+        <p>Wikis are built on the principle that anyone can edit
+        anything at any time. Digital signatures require the opposite: a
+        frozen document that cannot change after signing.</p>
+        <p>Digital Signature integrates both with ease. The macro is a
+        small enclave of immutability inside an otherwise fluid wiki.
+        Outside the macro, the page works normally. Inside it,
+        signatures are tied to the exact content.</p>
+    </div>
+</body>
+</html>
