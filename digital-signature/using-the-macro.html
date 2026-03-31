@@ -124,17 +124,33 @@
         <tr class="odd">
         <td><strong>Allow page viewers to sign</strong>
         (<code>inheritViewers</code>)</td>
-        <td>Any user with view permission on the page can sign.</td>
+        <td>Any user with view permission on the page can sign. This is
+        the key access-control feature: restrict the page and every
+        authorized viewer automatically becomes a signer. <strong>Does
+        not include page editors</strong> — use the editor option below
+        to add them separately.</td>
         </tr>
         <tr class="even">
         <td><strong>Allow page editors to sign</strong>
         (<code>inheritEditors</code>)</td>
-        <td>Any user with edit permission on the page can sign.</td>
+        <td>Any user with edit permission on the page can sign. This is
+        a convenience option since editors can already change the
+        signature settings. Especially useful in combination with the
+        viewer option above to also include yourself or the team
+        managing the page as signers.</td>
         </tr>
         </tbody>
         </table>
         <p>Multiple options can be combined—a user can sign if they
         match <em>any</em> of the configured restrictions.</p>
+        <blockquote>
+        <p><strong>Tip — combining viewers and editors:</strong>
+        Restrict your page to a set of viewers, enable “Allow page
+        viewers to sign”, and also enable “Allow page editors to sign”
+        to include yourself (or the admin team) among the signers.
+        Viewers and editors are treated as independent lists, so you can
+        add or remove each group separately.</p>
+        </blockquote>
         <hr />
         <h3 id="signing-limits">Signing limits</h3>
         <table>
@@ -222,10 +238,13 @@
         appears</h3>
         <p>The button is shown if: - You are listed as a named signer,
         <strong>or</strong> - You are a member of one of the configured
-        signer groups, <strong>or</strong> - You have the relevant page
-        permission (view or edit) and the corresponding inheritance
-        option is enabled, <strong>or</strong> - No restrictions are set
-        (petition mode — any logged-in user can sign)</p>
+        signer groups, <strong>or</strong> - “Allow page viewers to
+        sign” is enabled and you have view permission on the page
+        (editors are <strong>not</strong> included — they must be
+        enabled separately), <strong>or</strong> - “Allow page editors
+        to sign” is enabled and you have edit permission on the page,
+        <strong>or</strong> - No restrictions are set (petition mode —
+        any logged-in user can sign)</p>
         <p>…and: - The maximum signature count has not been reached -
         You have not already signed this version of the contract</p>
         <h3 id="emailing-signers">Emailing signers</h3>
