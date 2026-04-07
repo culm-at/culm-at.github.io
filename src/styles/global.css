@@ -1,0 +1,115 @@
+:root {
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  color: #0f172a;
+  background: #f8fafc;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: radial-gradient(circle at top left, #e0f2fe, #f8fafc 48%);
+}
+
+.shell {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.hero {
+  display: grid;
+  gap: 0.75rem;
+  margin: 2rem 0 1.5rem;
+}
+
+.logo {
+  width: min(360px, 100%);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+.card {
+  display: block;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.75rem;
+  padding: 1rem;
+  text-decoration: none;
+  color: inherit;
+  background: #fff;
+}
+
+.card:hover {
+  border-color: #0ea5e9;
+  transform: translateY(-1px);
+}
+
+.missing {
+  border-left: 4px solid #f59e0b;
+  background: #fff7ed;
+  padding: 0.75rem 1rem;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 1rem 0 2rem;
+}
+
+.brand {
+  font-weight: 700;
+  text-decoration: none;
+  color: inherit;
+}
+
+.section-nav {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.section-nav a {
+  text-decoration: none;
+  padding: 0.4rem 0.7rem;
+  border-radius: 999px;
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.doc {
+  background: #fff;
+  border: 1px solid #dbeafe;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.doc-section {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #64748b;
+  font-size: 0.8rem;
+}
+
+.doc-description {
+  color: #334155;
+}
+
+.doc-body {
+  margin-top: 1rem;
+  line-height: 1.7;
+}
+
+.doc-body a {
+  color: #0369a1;
+}

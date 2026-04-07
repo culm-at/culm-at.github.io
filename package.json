@@ -1,0 +1,21 @@
+{
+  "name": "culm-at-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "setup:sources": "node scripts/setup-sources.mjs",
+    "sync:content": "node scripts/sync-content.mjs",
+    "verify": "npm run check && npm run build"
+  },
+  "dependencies": {
+    "astro": "^5.1.0",
+    "gray-matter": "^4.0.3",
+    "js-yaml": "^4.1.0",
+    "marked": "^15.0.12",
+    "zod": "^3.24.1"
+  }
+}

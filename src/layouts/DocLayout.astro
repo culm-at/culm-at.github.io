@@ -1,0 +1,27 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+
+const { page, sections } = Astro.props;
+
+const pageTitle = `${page.meta.title} | culm.at`;
+---
+
+<BaseLayout title={pageTitle} description={page.meta.description}>
+  <header class="topbar">
+    <a href="/" class="brand">culm.at</a>
+    <nav class="section-nav">
+      {
+        sections.map((section) => (
+          <a href={section.basePath}>{section.title}</a>
+        ))
+      }
+    </nav>
+  </header>
+
+  <article class="doc">
+    <p class="doc-section">{page.meta.section}</p>
+    <h1>{page.meta.title}</h1>
+    <p class="doc-description">{page.meta.description}</p>
+    <div class="doc-body" set:html={page.html} />
+  </article>
+</BaseLayout>

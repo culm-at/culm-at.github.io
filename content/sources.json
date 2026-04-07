@@ -1,0 +1,22 @@
+{
+  "sources": [
+    {
+      "id": "digital-signature",
+      "title": "Digital Signature for Confluence",
+      "basePath": "/digital-signature",
+      "localRepoPath": "../digital-signature",
+      "sitePath": "site",
+      "repo": "culmat/digital-signature",
+      "cloneUrl": "https://github.com/culmat/digital-signature.git"
+    },
+    {
+      "id": "information-classification",
+      "title": "Information Classification for Confluence",
+      "basePath": "/information-classification",
+      "localRepoPath": "../information-classification",
+      "sitePath": "site",
+      "repo": "culmat/information-classification",
+      "cloneUrl": "https://github.com/culmat/information-classification.git"
+    }
+  ]
+}

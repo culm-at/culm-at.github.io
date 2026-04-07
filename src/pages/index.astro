@@ -1,0 +1,34 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { loadSiteData } from "../lib/content-loader.js";
+
+const { sections, missing } = loadSiteData();
+---
+
+<BaseLayout title="culm.at" description="Decentralized authoring, centralized presentation.">
+  <section class="hero">
+    <img src="/culmat_logo_grayscale.svg" alt="culm.at" class="logo" />
+    <h1>culm.at</h1>
+    <p>Decentralized authoring with centralized rendering and style.</p>
+  </section>
+
+  <section class="cards">
+    {
+      sections.map((section) => (
+        <a class="card" href={section.basePath}>
+          <h2>{section.title}</h2>
+          <p>{section.mode === "local" ? "Local source" : "Mirrored source"}</p>
+        </a>
+      ))
+    }
+  </section>
+
+  {
+    missing.length > 0 && (
+      <section class="missing">
+        <h2>Missing local sources</h2>
+        <p>Run <code>npm run setup:sources</code> to get guidance.</p>
+      </section>
+    )
+  }
+</BaseLayout>

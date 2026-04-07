@@ -1,0 +1,22 @@
+---
+import DocLayout from "../layouts/DocLayout.astro";
+import { loadSiteData } from "../lib/content-loader.js";
+
+export function getStaticPaths() {
+  const { pages, sections } = loadSiteData();
+  return pages.map((page) => ({
+    params: {
+      slug: page.routePath.replace(/^\//, "")
+    },
+    props: {
+      page,
+      sections
+    }
+  }));
+}
+
+const { page } = Astro.props;
+const allSections = Astro.props.sections;
+---
+
+<DocLayout page={page} sections={allSections} />
