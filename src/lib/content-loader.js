@@ -6,6 +6,94 @@ import { marked } from "marked";
 import { z } from "zod";
 import { discoverSources } from "./source-discovery.js";
 
+function slugifyHeading(text) {
+  return text
+    .toLowerCase()
+    .replace(/<[^>]+>/g, "")
+    .replace(/&[^;]+;/g, "")
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-");
+}
+
+export function renderMarkdown(markdown) {
+  const renderer = new marked.Renderer();
+  renderer.heading = function ({ tokens, depth }) {
+    const text = this.parser.parseInline(tokens);
+    const id = slugifyHeading(text);
+    return `<h${depth} id="${id}"><a href="#${id}" class="heading-anchor">${text}</a></h${depth}>`;
+  };
+
+  return marked.parse(markdown, { renderer });
+}
+
+function isExternalOrAbsoluteLink(target) {
+  return (
+    target.startsWith("http://") ||
+    target.startsWith("https://") ||
+    target.startsWith("mailto:") ||
+    target.startsWith("#") ||
+    target.startsWith("/")
+  );
+}
+
+function getSectionBase(routePath) {
+  const firstSegment = routePath.split("/").filter(Boolean)[0];
+  return firstSegment ? `/${firstSegment}` : "/";
+}
+
+function normalizeMarkdownTarget(target) {
+  return target.replace(/\.(md|html)$/i, "").replace(/^\.\//, "");
+}
+
+export function rewriteRelativeMarkdownLinks(markdown, routePath) {
+  const sectionBase = getSectionBase(routePath);
+  return markdown.replace(/\]\(([^)]+)\)/g, (match, rawTarget) => {
+    const target = rawTarget.trim();
+
+    if (isExternalOrAbsoluteLink(target)) {
+      return match;
+    }
+
+    const normalized = normalizeMarkdownTarget(target);
+    const [pathPart, hashPart = ""] = normalized.split("#");
+    const cleanPath = pathPart.toLowerCase();
+    const withHash = hashPart ? `#${hashPart}` : "";
+
+    if (!cleanPath || cleanPath === "index" || cleanPath === "home") {
+      return `](${sectionBase}${withHash})`;
+    }
+
+    return `](${sectionBase}/${cleanPath}${withHash})`;
+  });
+}
+
+export function stripRedundantTopHeading(markdown, title) {
+  const lines = markdown.split("\n");
+  if (lines.length === 0) {
+    return markdown;
+  }
+
+  let firstHeadingIndex = 0;
+  while (firstHeadingIndex < lines.length && lines[firstHeadingIndex].trim() === "") {
+    firstHeadingIndex += 1;
+  }
+
+  if (firstHeadingIndex >= lines.length) {
+    return markdown;
+  }
+
+  const first = lines[firstHeadingIndex].trim();
+  const normalizedTitle = title.trim().toLowerCase();
+  const normalizedHeading = first.replace(/^#\s+/, "").trim().toLowerCase();
+
+  if (!first.startsWith("# ") || normalizedHeading !== normalizedTitle) {
+    return markdown;
+  }
+
+  return lines.slice(firstHeadingIndex + 1).join("\n").trim();
+}
+
 const pageSchema = z.object({
   title: z.string(),
   description: z.string(),
@@ -56,13 +144,15 @@ export function loadSiteData() {
       }
 
       const routePath = routeFromPage(source.basePath, file, meta);
-      const html = marked.parse(parsed.content);
+      const deDuplicatedMarkdown = stripRedundantTopHeading(parsed.content, meta.title);
+      const linkedMarkdown = rewriteRelativeMarkdownLinks(deDuplicatedMarkdown, routePath);
+      const html = renderMarkdown(linkedMarkdown);
 
       pages.push({
         sourceId: source.id,
         routePath,
         html,
-        body: parsed.content,
+        body: linkedMarkdown,
         meta,
         file
       });
