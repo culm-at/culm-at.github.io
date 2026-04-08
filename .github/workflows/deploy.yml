@@ -1,0 +1,72 @@
+name: Build and deploy
+
+on:
+  push:
+    branches:
+      - main
+  repository_dispatch:
+    types:
+      - content-updated
+  workflow_dispatch:
+
+# Allow one concurrent deployment; cancel in-flight runs on new pushes.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out culm-at.github.io
+        uses: actions/checkout@v4
+        with:
+          path: culm-at.github.io
+
+      - name: Check out digital-signature
+        uses: actions/checkout@v4
+        with:
+          repository: culmat/digital-signature
+          path: digital-signature
+
+      - name: Check out information-classification
+        uses: actions/checkout@v4
+        with:
+          repository: culmat/information-classification
+          path: information-classification
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+        working-directory: culm-at.github.io
+
+      - name: Build site
+        run: bun run build
+        working-directory: culm-at.github.io
+        env:
+          # Astro reads cwd; sibling repos are at ../digital-signature etc.
+          # relative to the working-directory above, which is correct.
+          NODE_ENV: production
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: culm-at.github.io/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
