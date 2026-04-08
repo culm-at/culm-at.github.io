@@ -14,6 +14,14 @@ body {
   background: radial-gradient(circle at top left, #e0f2fe, #f8fafc 48%);
 }
 
+a {
+  color: #573d0a;
+}
+
+a:hover {
+  color: #7f5a0e;
+}
+
 .shell {
   max-width: 960px;
   margin: 0 auto;
@@ -43,12 +51,12 @@ body {
   border-radius: 0.75rem;
   padding: 1rem;
   text-decoration: none;
-  color: inherit;
+  color: #573d0a;
   background: #fff;
 }
 
 .card:hover {
-  border-color: #0ea5e9;
+  border-color: #d19317;
   transform: translateY(-1px);
 }
 
@@ -84,7 +92,7 @@ body {
   padding: 0.4rem 0.7rem;
   border-radius: 999px;
   background: #e2e8f0;
-  color: #0f172a;
+  color: #573d0a;
 }
 
 .doc {
@@ -108,10 +116,6 @@ body {
 .doc-body {
   margin-top: 1rem;
   line-height: 1.7;
-}
-
-.doc-body a {
-  color: #0369a1;
 }
 
 .heading-anchor {

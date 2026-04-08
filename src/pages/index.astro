@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import CulmLogoText from "../components/CulmLogoText.astro";
 import { loadSiteData } from "../lib/content-loader.js";
 
 const { sections, missing } = loadSiteData();
@@ -7,8 +8,8 @@ const { sections, missing } = loadSiteData();
 
 <BaseLayout title="culm.at" description="Decentralized authoring, centralized presentation.">
   <section class="hero">
-    <img src="/culmat_logo_grayscale.svg" alt="culm.at" class="logo" />
-    <h1>culm.at</h1>
+    <img src="/culmat_logo.svg" alt="culm.at" class="logo" />
+    <h1><CulmLogoText /></h1>
     <p>
       Hi and welcome,<br/> 
       my name is Matthias.<br/>

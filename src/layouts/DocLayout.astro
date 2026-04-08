@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "./BaseLayout.astro";
+import CulmLogoText from "../components/CulmLogoText.astro";
 
 const { page, sections } = Astro.props;
 
@@ -8,7 +9,7 @@ const pageTitle = `${page.meta.title} | culm.at`;
 
 <BaseLayout title={pageTitle} description={page.meta.description}>
   <header class="topbar">
-    <a href="/" class="brand">culm.at</a>
+    <a href="/" class="brand"><CulmLogoText /></a>
     <nav class="section-nav">
       {
         sections.map((section) => (
