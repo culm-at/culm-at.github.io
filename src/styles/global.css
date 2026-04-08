@@ -113,3 +113,8 @@ body {
 .doc-body a {
   color: #0369a1;
 }
+
+.heading-anchor {
+  color: inherit;
+  text-decoration: none;
+}

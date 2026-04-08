@@ -9,7 +9,14 @@ const { sections, missing } = loadSiteData();
   <section class="hero">
     <img src="/culmat_logo_grayscale.svg" alt="culm.at" class="logo" />
     <h1>culm.at</h1>
-    <p>Decentralized authoring with centralized rendering and style.</p>
+    <p>
+      Hi and welcome,<br/> 
+      my name is Matthias.<br/>
+       I'm a Swiss software engineer based in
+      <a href="https://www.openstreetmap.org/relation/1683619">Basel</a> with a passion for
+      <a href="https://en.wikipedia.org/wiki/Free_and_open-source_software">free open source software</a>.<br/>
+      You can learn more about me in my <a href="https://culmat.github.io/cv/">CV</a>.
+    </p>
   </section>
 
   <section class="cards">
@@ -17,17 +24,19 @@ const { sections, missing } = loadSiteData();
       sections.map((section) => (
         <a class="card" href={section.basePath}>
           <h2>{section.title}</h2>
-          <p>{section.mode === "local" ? "Local source" : "Mirrored source"}</p>
         </a>
       ))
     }
+    <a class="card" href="https://cleancentive.org/">
+      <h2>Cleancentive</h2>
+    </a>
   </section>
 
   {
     missing.length > 0 && (
       <section class="missing">
         <h2>Missing local sources</h2>
-        <p>Run <code>npm run setup:sources</code> to get guidance.</p>
+        <p>Run <code>bun run setup:sources</code> to get guidance.</p>
       </section>
     )
   }

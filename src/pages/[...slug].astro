@@ -4,7 +4,7 @@ import { loadSiteData } from "../lib/content-loader.js";
 
 export function getStaticPaths() {
   const { pages, sections } = loadSiteData();
-  return pages.map((page) => ({
+  const basePaths = pages.map((page) => ({
     params: {
       slug: page.routePath.replace(/^\//, "")
     },
@@ -13,6 +13,39 @@ export function getStaticPaths() {
       sections
     }
   }));
+
+  const used = new Set(basePaths.map((entry) => entry.params.slug));
+  const aliasCandidates = new Map();
+
+  for (const page of pages) {
+    const bits = page.routePath.replace(/^\//, "").split("/");
+    if (bits.length <= 1) {
+      continue;
+    }
+
+    const tail = bits.slice(1).join("/");
+    if (!tail || used.has(tail)) {
+      continue;
+    }
+
+    if (!aliasCandidates.has(tail)) {
+      aliasCandidates.set(tail, []);
+    }
+    aliasCandidates.get(tail).push(page);
+  }
+
+  for (const [tail, matches] of aliasCandidates.entries()) {
+    if (matches.length !== 1) {
+      continue;
+    }
+    basePaths.push({
+      params: { slug: tail },
+      props: { page: matches[0], sections }
+    });
+    used.add(tail);
+  }
+
+  return basePaths;
 }
 
 const { page } = Astro.props;
