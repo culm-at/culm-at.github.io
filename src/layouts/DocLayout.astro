@@ -26,3 +26,27 @@ const pageTitle = `${page.meta.title} | culm.at`;
     <div class="doc-body" set:html={page.html} />
   </article>
 </BaseLayout>
+
+<script>
+  // Click-to-zoom for content images: open the full-resolution image in a
+  // native <dialog> lightbox. The markdown body is injected via set:html, so
+  // the <img>s exist in the parsed DOM by the time this (deferred module) runs.
+  const imgs = document.querySelectorAll<HTMLImageElement>(".doc-body img");
+  if (imgs.length) {
+    const dialog = document.createElement("dialog");
+    dialog.className = "img-zoom";
+    const fullImg = document.createElement("img");
+    dialog.appendChild(fullImg);
+    // Close on Escape (native), backdrop click, or clicking the enlarged image.
+    dialog.addEventListener("click", () => dialog.close());
+    document.body.appendChild(dialog);
+
+    imgs.forEach((img) => {
+      img.addEventListener("click", () => {
+        fullImg.src = img.currentSrc || img.src;
+        fullImg.alt = img.alt || "";
+        dialog.showModal();
+      });
+    });
+  }
+</script>
