@@ -17,6 +17,16 @@
       "sitePath": "site",
       "repo": "culmat/information-classification",
       "cloneUrl": "https://github.com/culmat/information-classification.git"
+    },
+    {
+      "id": "bookmarklets",
+      "title": "Bookmarklets",
+      "basePath": "/bookmarklets",
+      "localRepoPath": "../bookmarklets",
+      "sitePath": "site",
+      "secondary": true,
+      "repo": "culmat/bookmarklets",
+      "cloneUrl": "https://github.com/culmat/bookmarklets.git"
     }
   ]
 }

@@ -4,6 +4,10 @@ import CulmLogoText from "../components/CulmLogoText.astro";
 
 const { page, sections } = Astro.props;
 
+// Secondary sources are side projects and stay out of the topbar; they are reachable
+// from the muted link row on the homepage.
+const navSections = sections.filter((section) => !section.secondary);
+
 const pageTitle = `${page.meta.title} | culm.at`;
 ---
 
@@ -12,7 +16,7 @@ const pageTitle = `${page.meta.title} | culm.at`;
     <a href="/" class="brand"><CulmLogoText /></a>
     <nav class="section-nav">
       {
-        sections.map((section) => (
+        navSections.map((section) => (
           <a href={section.basePath}>{section.title}</a>
         ))
       }
@@ -49,4 +53,29 @@ const pageTitle = `${page.meta.title} | culm.at`;
       });
     });
   }
+
+  // Bookmarklet gallery. The hrefs are real `javascript:` URLs so they can be dragged
+  // onto the bookmarks bar, but clicking one here would run it against culm.at itself,
+  // which is only confusing -- show the drag hint instead.
+  document.querySelectorAll<HTMLElement>(".bookmarklet").forEach((card) => {
+    const link = card.querySelector<HTMLAnchorElement>(".bookmarklet-drag");
+    const copy = card.querySelector<HTMLButtonElement>(".bookmarklet-copy");
+    const hint = card.querySelector<HTMLElement>(".bookmarklet-hint");
+    if (!link) return;
+
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      if (hint) hint.hidden = false;
+    });
+
+    copy?.addEventListener("click", async () => {
+      // link.href is the resolved, encoded javascript: URL -- exactly what belongs in
+      // the URL field of a manually created bookmark.
+      await navigator.clipboard.writeText(link.href);
+      copy.textContent = "Copied";
+      setTimeout(() => {
+        copy.textContent = "Copy";
+      }, 1500);
+    });
+  });
 </script>

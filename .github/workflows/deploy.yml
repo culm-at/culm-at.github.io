@@ -40,6 +40,12 @@ jobs:
           repository: culmat/information-classification
           path: information-classification
 
+      - name: Check out bookmarklets
+        uses: actions/checkout@v4
+        with:
+          repository: culmat/bookmarklets
+          path: bookmarklets
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:

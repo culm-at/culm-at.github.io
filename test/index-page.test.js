@@ -15,3 +15,26 @@ describe("homepage cards", () => {
     expect(page.includes("Cleancentive")).toBe(true);
   });
 });
+
+describe("secondary sources", () => {
+  const read = (file) => fs.readFileSync(path.resolve(process.cwd(), file), "utf8");
+
+  test("only the card grid is limited to primary sections", () => {
+    const page = read("src/pages/index.astro");
+    expect(page.includes("primarySections.map")).toBe(true);
+    expect(page.includes("secondary-links")).toBe(true);
+  });
+
+  test("the docs topbar leaves secondary sections out", () => {
+    const layout = read("src/layouts/DocLayout.astro");
+    expect(layout.includes("navSections.map")).toBe(true);
+    expect(layout.includes("(section) => !section.secondary")).toBe(true);
+  });
+
+  test("bookmarklets is the only secondary source", () => {
+    const { sources } = JSON.parse(read("content/sources.json"));
+    const secondary = sources.filter((source) => source.secondary === true);
+    expect(secondary.map((source) => source.id)).toEqual(["bookmarklets"]);
+    expect(sources.length).toBeGreaterThan(1);
+  });
+});

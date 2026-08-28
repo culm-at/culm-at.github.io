@@ -1,11 +1,11 @@
 {
   "lockfileVersion": 1,
-  "configVersion": 0,
   "workspaces": {
     "": {
       "name": "culm-at-site",
       "dependencies": {
         "astro": "^6.1.4",
+        "esbuild": "^0.27.7",
         "gray-matter": "^4.0.3",
         "js-yaml": "^4.1.0",
         "marked": "^15.0.12",

@@ -5,6 +5,7 @@ import yaml from "js-yaml";
 import { marked } from "marked";
 import { z } from "zod";
 import { discoverSources } from "./source-discovery.js";
+import { injectBookmarklets } from "./bookmarklets.js";
 
 function slugifyHeading(text) {
   return text
@@ -146,7 +147,7 @@ export function loadSiteData() {
       const routePath = routeFromPage(source.basePath, file, meta);
       const deDuplicatedMarkdown = stripRedundantTopHeading(parsed.content, meta.title);
       const linkedMarkdown = rewriteRelativeMarkdownLinks(deDuplicatedMarkdown, routePath);
-      const html = renderMarkdown(linkedMarkdown);
+      const html = injectBookmarklets(renderMarkdown(linkedMarkdown), sitePath, source.repo);
 
       pages.push({
         sourceId: source.id,
@@ -163,7 +164,10 @@ export function loadSiteData() {
       title: source.title,
       basePath: source.basePath,
       nav,
-      mode
+      mode,
+      // Secondary sources are side projects: they get a muted link on the homepage
+      // instead of a card, and stay out of the docs topbar entirely.
+      secondary: source.secondary === true
     });
   }
 

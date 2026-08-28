@@ -12,9 +12,17 @@ export function isExternalContentFile(filePath, siteDirs) {
   const resolvedFilePath = path.resolve(filePath);
   return siteDirs.some((dir) => {
     const resolvedDir = path.resolve(dir);
+    if (!resolvedFilePath.startsWith(`${resolvedDir}${path.sep}`)) {
+      return false;
+    }
+
     return (
-      resolvedFilePath.startsWith(`${resolvedDir}${path.sep}`) &&
-      (resolvedFilePath.endsWith(".md") || resolvedFilePath.endsWith(`${path.sep}nav.yml`))
+      resolvedFilePath.endsWith(".md") ||
+      resolvedFilePath.endsWith(`${path.sep}nav.yml`) ||
+      // Bookmarklet sources are rendered into the page at build time, so editing one
+      // has to reload the browser just like editing markdown does.
+      (resolvedFilePath.endsWith(".js") &&
+        resolvedFilePath.startsWith(`${resolvedDir}${path.sep}bookmarklets${path.sep}`))
     );
   });
 }

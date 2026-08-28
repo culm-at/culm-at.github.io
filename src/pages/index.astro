@@ -4,6 +4,8 @@ import CulmLogoText from "../components/CulmLogoText.astro";
 import { loadSiteData } from "../lib/content-loader.js";
 
 const { sections, missing } = loadSiteData();
+const primarySections = sections.filter((section) => !section.secondary);
+const secondarySections = sections.filter((section) => section.secondary);
 ---
 
 <BaseLayout title="culm.at" description="Decentralized authoring, centralized presentation.">
@@ -22,7 +24,7 @@ const { sections, missing } = loadSiteData();
 
   <section class="cards">
     {
-      sections.map((section) => (
+      primarySections.map((section) => (
         <a class="card" href={section.basePath}>
           <h2>{section.title}</h2>
         </a>
@@ -32,6 +34,17 @@ const { sections, missing } = loadSiteData();
       <h2>Cleancentive</h2>
     </a>
   </section>
+
+  {
+    secondarySections.length > 0 && (
+      <p class="secondary-links">
+        <span>Also here:</span>
+        {secondarySections.map((section) => (
+          <a href={section.basePath}>{section.title}</a>
+        ))}
+      </p>
+    )
+  }
 
   {
     missing.length > 0 && (

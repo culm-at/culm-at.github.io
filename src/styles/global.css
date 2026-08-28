@@ -60,6 +60,23 @@ a:hover {
   transform: translateY(-1px);
 }
 
+/* Side projects: present but visibly subordinate to the .cards grid above. */
+.secondary-links {
+  margin: -0.5rem 0 2rem;
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.secondary-links a {
+  margin-left: 0.5rem;
+}
+
+.secondary-links a + a::before {
+  content: "·";
+  color: #94a3b8;
+  margin-right: 0.5rem;
+}
+
 .missing {
   border-left: 4px solid #f59e0b;
   background: #fff7ed;
@@ -163,4 +180,94 @@ dialog.img-zoom img {
   border-radius: 0.5rem;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
   cursor: zoom-out;
+}
+
+/* Bookmarklet gallery (generated in src/lib/bookmarklets.js, injected via set:html). */
+.bookmarklet-list {
+  list-style: none;
+  margin: 1.5rem 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.bookmarklet {
+  border: 1px solid #cbd5e1;
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  background: #fff;
+}
+
+.bookmarklet h3 {
+  margin: 0;
+}
+
+.bookmarklet-description {
+  color: #334155;
+  margin: 0.4rem 0 0.9rem;
+}
+
+.bookmarklet-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin: 0;
+}
+
+/* The draggable target. Looks like a button so it reads as "grab me". */
+.bookmarklet-drag {
+  display: inline-block;
+  padding: 0.45rem 0.9rem;
+  border-radius: 0.5rem;
+  background: #573d0a;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: grab;
+}
+
+.bookmarklet-drag:hover {
+  background: #7f5a0e;
+  color: #fff;
+}
+
+.bookmarklet-copy {
+  font: inherit;
+  font-size: 0.9rem;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.5rem;
+  background: #f8fafc;
+  color: #573d0a;
+  cursor: pointer;
+}
+
+.bookmarklet-copy:hover {
+  border-color: #d19317;
+}
+
+.bookmarklet-hint {
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.bookmarklet-source {
+  margin-top: 0.9rem;
+}
+
+.bookmarklet-source summary {
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.bookmarklet-source pre {
+  overflow-x: auto;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  padding: 0.9rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
 }
